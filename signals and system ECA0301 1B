@@ -1,0 +1,61 @@
+% Experiment 2: Generation of Discrete-Time Signals
+
+clc;
+clear;
+close all;
+
+% Define Signal Parameters
+n = -20:20;
+A = 2;
+f0 = 0.1;
+a = 0.1;
+
+% Generate Discrete-Time Signals
+imp = double(n == 0);
+step = double(n >= 0);
+ramp = n .* step;
+expSig = (0.8).^n .* step;
+sinSig = A * sin(2*pi*f0*n);
+
+% Plot All Signals
+figure;
+
+% 1. Unit Impulse Signal
+subplot(3,2,1);
+stem(n, imp, 'filled');
+grid on;
+title('Unit Impulse');
+xlabel('n');
+ylabel('Amplitude');
+
+% 2. Unit Step Signal
+subplot(3,2,2);
+stem(n, step, 'filled');
+grid on;
+title('Unit Step');
+xlabel('n');
+ylabel('Amplitude');
+
+% 3. Ramp Signal
+subplot(3,2,3);
+stem(n, ramp, 'filled');
+grid on;
+title('Ramp');
+xlabel('n');
+ylabel('Amplitude');
+
+% 4. Exponential Signal
+subplot(3,2,4);
+stem(n, expSig, 'filled');
+grid on;
+title('Exponential');
+xlabel('n');
+ylabel('Amplitude');
+
+% 5. Discrete-Time Sinusoidal Signal
+subplot(3,2,5);
+stem(n, sinSig, 'filled');
+grid on;
+title('Discrete Sinusoid');
+xlabel('n');
+ylabel('Amplitude');
