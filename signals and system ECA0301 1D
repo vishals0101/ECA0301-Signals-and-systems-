@@ -1,0 +1,59 @@
+% Experiment 6: Even and Odd Signal Decomposition
+
+clc;
+clear;
+close all;
+
+% Define Time
+t = -1:0.001:1;
+
+% Generate Input Signal
+x = sin(2*pi*5*t) + 0.5*cos(2*pi*3*t);
+
+% Reverse the Signal
+xr = fliplr(x);
+
+% Calculate Even and Odd Components
+xe = (x + xr)/2;
+xo = (x - xr)/2;
+
+% Reconstruct the Original Signal
+xrec = xe + xo;
+
+% Plot All Signals
+figure;
+
+% 1. Input Signal
+subplot(2,2,1);
+plot(t, x);
+grid on;
+title('Input x(t)');
+xlabel('Time (t)');
+ylabel('Amplitude');
+
+% 2. Even Component
+subplot(2,2,2);
+plot(t, xe);
+grid on;
+title('Even Component');
+xlabel('Time (t)');
+ylabel('Amplitude');
+
+% 3. Odd Component
+subplot(2,2,3);
+plot(t, xo);
+grid on;
+title('Odd Component');
+xlabel('Time (t)');
+ylabel('Amplitude');
+
+% 4. Reconstructed Signal
+subplot(2,2,4);
+plot(t, xrec);
+grid on;
+title('Reconstructed x(t)');
+xlabel('Time (t)');
+ylabel('Amplitude');
+
+% Calculate Reconstruction Error
+fprintf('Maximum reconstruction error = %g\n', max(abs(x - xrec)));
