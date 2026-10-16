@@ -1,0 +1,55 @@
+% Experiment 2(i): Amplitude and Time Scaling
+
+clc;
+clear;
+close all;
+
+% Step 1: Define the time axis
+t = -1:0.001:1;
+
+% Step 2: Generate the original signal
+x = sin(2*pi*5*t);
+
+% Step 3: Perform amplitude scaling
+yA = 2*x;
+
+% Step 4: Perform time compression
+yC = sin(2*pi*5*(2*t));
+
+% Step 5: Perform time expansion
+yE = sin(2*pi*5*(t/2));
+
+% Step 6: Plot all signals
+figure;
+
+% Original Signal
+subplot(2,2,1);
+plot(t,x);
+grid on;
+title('Original Signal x(t)');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
+% Amplitude Scaling
+subplot(2,2,2);
+plot(t,yA);
+grid on;
+title('Amplitude Scaling: 2x(t)');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
+% Time Compression
+subplot(2,2,3);
+plot(t,yC);
+grid on;
+title('Time Compression: x(2t)');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
+% Time Expansion
+subplot(2,2,4);
+plot(t,yE);
+grid on;
+title('Time Expansion: x(t/2)');
+xlabel('Time (s)');
+ylabel('Amplitude');
