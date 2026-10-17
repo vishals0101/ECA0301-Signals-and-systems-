@@ -1,0 +1,48 @@
+```matlab
+% Experiment 6(i): Verification of Parseval's Relation
+% for Periodic Signals
+
+clc;
+clear;
+close all;
+
+% Define Signal Parameters
+f0 = 1;
+T = 1/f0;
+t = linspace(0, T, 4001);
+
+% Generate Half-Wave Rectified Sinusoidal Signal
+x = max(sin(2*pi*f0*t), 0);
+
+% Calculate Time-Domain Average Power
+P_time = (1/T) * trapz(t, abs(x).^2);
+
+% Calculate Fourier Series Coefficients
+N = 20;
+a0 = (2/T) * trapz(t, x);
+
+an = zeros(1, N);
+bn = zeros(1, N);
+
+for k = 1:N
+    an(k) = (2/T) * trapz(t, x .* cos(2*pi*k*f0*t));
+    bn(k) = (2/T) * trapz(t, x .* sin(2*pi*k*f0*t));
+end
+
+% Calculate Frequency-Domain Average Power
+P_freq = (a0^2 / 4) + 0.5 * sum(an.^2 + bn.^2);
+
+% Display Results
+fprintf('Time-domain power = %.6f\n', P_time);
+fprintf('Frequency-domain power = %.6f\n', P_freq);
+fprintf('Absolute error = %.6e\n', abs(P_time - P_freq));
+
+% Plot Comparison
+figure;
+
+bar([P_time, P_freq]);
+set(gca, 'XTickLabel', {'Time Domain', 'Frequency Domain'});
+ylabel('Average Power');
+title('Verification of Parseval''s Relation');
+grid on;
+```
