@@ -1,0 +1,55 @@
+```matlab
+% Experiment 7(iii): Verification of Fourier Transform Properties
+% and Frequency-Domain Characteristics
+
+clc;
+clear;
+close all;
+
+% Define Time Parameters
+t = -2:0.001:2;
+dt = t(2) - t(1);
+t0 = 0.4;
+
+% Generate Original Signal
+x = exp(-t.^2);
+
+% Generate Time-Shifted Signal
+x_shift = interp1(t, x, t - t0, 'linear', 0);
+
+% Calculate Fourier Transform of Original Signal
+X = fftshift(fft(x)) * dt;
+
+% Define Frequency Axis
+N = length(x);
+f = (-floor(N/2):ceil(N/2)-1) / (N*dt);
+
+% Calculate Theoretical Fourier Transform of Shifted Signal
+X_shift_theory = X .* exp(-1j*2*pi*f*t0);
+
+% Calculate Fourier Transform of Shifted Signal
+X_shift = fftshift(fft(x_shift)) * dt;
+
+% Plot Magnitude Comparison
+figure;
+
+subplot(2,1,1);
+plot(f, abs(X_shift), 'b', f, abs(X_shift_theory), 'r--');
+xlim([-5 5]);
+grid on;
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Time-Shift Property: Magnitude Comparison');
+legend('Computed', 'Theoretical');
+
+% Plot Phase Comparison
+subplot(2,1,2);
+plot(f, unwrap(angle(X_shift)), 'b', ...
+     f, unwrap(angle(X_shift_theory)), 'r--');
+xlim([-5 5]);
+grid on;
+xlabel('Frequency (Hz)');
+ylabel('Phase (rad)');
+title('Time-Shift Property: Phase Comparison');
+legend('Computed', 'Theoretical');
+```
