@@ -1,0 +1,33 @@
+% Experiment 8(ii): Determination of Inverse Laplace Transform
+% for Signal Reconstruction
+
+clc;
+clear;
+close all;
+
+% Define Symbolic Variables
+syms s t;
+
+% Define Laplace Transform
+X = 1 / ((s + 2) * (s + 3));
+
+% Calculate Inverse Laplace Transform
+x = ilaplace(X, s, t);
+
+% Display the Result
+disp('Inverse Laplace Transform x(t) =');
+pretty(x);
+
+% Define Time Range
+tt = 0:0.001:5;
+
+% Convert Symbolic Expression to Numerical Values
+xx = double(subs(x, t, tt));
+
+% Plot the Reconstructed Signal
+figure;
+plot(tt, xx, 'LineWidth', 1.2);
+grid on;
+xlabel('Time (s)');
+ylabel('Amplitude');
+title('Signal Reconstructed using Inverse Laplace Transform');
