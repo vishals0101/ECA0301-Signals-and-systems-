@@ -1,0 +1,70 @@
+% Experiment 20: STFT and Wavelet-Based Time-Frequency Analysis
+
+clc;
+clear;
+close all;
+
+% Define Sampling Parameters
+Fs = 1000;
+t = 0:1/Fs:2-1/Fs;
+
+% Generate Non-Stationary Input Signal
+% Linear chirp from 50 Hz to 300 Hz
+x = chirp(t, 50, t(end), 300, 'linear');
+
+% Add a 150 Hz Transient Burst from 0.8 s to 1.0 s
+burst = zeros(size(t));
+idx = (t >= 0.8) & (t <= 1.0);
+burst(idx) = 0.8*sin(2*pi*150*t(idx));
+
+x = x + burst;
+
+% Short-Time Fourier Transform (STFT)
+win = hann(128, 'periodic');
+noverlap = 112;
+nfft = 512;
+
+[S, F, Tstft] = spectrogram(x, win, noverlap, nfft, Fs);
+
+% Create Figure
+figure('Name', 'Experiment 20: STFT and Wavelet Analysis');
+
+% 1. Plot Input Signal
+subplot(3, 1, 1);
+plot(t, x);
+grid on;
+xlabel('Time (s)');
+ylabel('Amplitude');
+title('Input: Chirp with 150 Hz Transient');
+
+% 2. Plot STFT Magnitude Spectrogram
+subplot(3, 1, 2);
+imagesc(Tstft, F, 20*log10(abs(S) + eps));
+axis xy;
+ylim([0 400]);
+colorbar;
+xlabel('Time (s)');
+ylabel('Frequency (Hz)');
+title('STFT Magnitude Spectrogram (dB)');
+
+% 3. Continuous Wavelet Transform (CWT)
+% Requires Wavelet Toolbox
+[wt, fCWT] = cwt(x, Fs);
+
+subplot(3, 1, 3);
+imagesc(t, fCWT, abs(wt));
+axis xy;
+ylim([0 400]);
+colorbar;
+xlabel('Time (s)');
+ylabel('Frequency (Hz)');
+title('CWT Magnitude Scalogram');
+
+% Display Analysis Parameters
+fprintf('Sampling frequency = %d Hz\n', Fs);
+
+fprintf(['STFT window = %d samples; overlap = %d samples; ', ...
+         'FFT length = %d\n'], length(win), noverlap, nfft);
+
+fprintf(['Input contains a chirp from 50 Hz to 300 Hz ', ...
+         'and a 150 Hz burst from 0.8 to 1.0 s.\n']);
