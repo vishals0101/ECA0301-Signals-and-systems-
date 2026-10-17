@@ -1,30 +1,48 @@
-clc; clear; close all;
-% Continuous-Time LTI System: dy(t)/dt + 2y(t) = x(t)
-% Assume zero initial conditions: H(s) = Y(s)/X(s) = 1/(s + 2)
+% Experiment: Continuous-Time LTI System Analysis
+
+clc;
+clear;
+close all;
+
+% Define the Transfer Function
 num = [1];
 den = [1 2];
 sys = tf(num, den);
-disp('Transfer function:');
+
+% Display the Transfer Function
+disp('Transfer Function:');
 sys
-disp('Pole:');
+
+% Find and Display Poles
+disp('Poles:');
 disp(pole(sys));
+
+% Find and Display Zeros
 disp('Zeros:');
 disp(zero(sys));
+
+% Define the Time Range
 t = 0:0.01:5;
+
+% 1. Impulse Response
 figure;
 impulse(sys, t);
 grid on;
 title('Impulse Response');
 xlabel('Time (s)');
 ylabel('h(t)');
+
+% 2. Step Response
 figure;
 step(sys, t);
 grid on;
 title('Step Response');
 xlabel('Time (s)');
 ylabel('y(t)');
-% Response to x(t) = sin(2t)u(t)
+
+% 3. Response to Input x(t) = sin(2t)u(t)
 x = sin(2*t);
+
 figure;
 lsim(sys, x, t);
 grid on;
